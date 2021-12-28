@@ -1,0 +1,32 @@
+﻿@model IEnumerable<TravelAgency000.Models.Destination>
+
+@{
+    ViewData["Title"] = "Mainpage";
+}
+
+
+
+
+<h3>Products List</h3>
+<table cellpadding="3" cellspacing="3" border="1">
+    <tr>
+        <th>Name</th>
+        <th>Photo</th>
+        <th>Price</th>
+        <th>Buy</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+           
+            <td>@item.ItemName</td>
+            <td><img src="@item.Photo" width="500px" height="300px" /> </td>
+            <td>@item.ItemPrice$</td>
+            <td align="center">
+                <a asp-action="Details" class="col-lg-12 col-md-12 col-sm-12 btn btn-outline-primary font-weight-bold border-width-2" asp-route-id="@item.ItemId">Details</a>
+
+                <input type="button" name="AddToCart" value="Add to Cart" class="col-lg-12 col-md-12 col-sm-12 btn btn-outline-primary font-weight-bold border-width-2" itemid="@item.ItemId" id="btnAddToCart" onclick="AddToCart(this)" />
+            </td>
+        </tr>
+    }
+</table>
