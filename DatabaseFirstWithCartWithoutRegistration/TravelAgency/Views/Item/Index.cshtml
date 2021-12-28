@@ -1,0 +1,133 @@
+﻿@model TravelAgency.ViewModel.ItemViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnSave").click(function () {
+            SaveItem();
+
+        });
+
+
+    });
+
+    function ResetItem() {
+        $("#CategoryId").val("1");
+        $("#ItemCode").val("");
+        $("#ItemName").val("");
+        $("#Description").val("");
+        $("#ItemPrice").val("");
+        $("#ImagePath").val("")
+    }
+
+
+
+
+
+
+    function SaveItem() {
+        var formData = new FormData();
+        formData.append("CategoryId", $("#CategoryId").val());
+        formData.append("ItemCode", $("#ItemCode").val());
+        formData.append("ItemName", $("#ItemName").val());
+        formData.append("Description", $("#Description").val());
+        formData.append("ItemPrice", $("#ItemPrice").val());
+        formData.append("ImagePath", $("#ImagePath").get(0).files[0]);
+
+        $.ajax({
+            async: true,
+            dataType: 'JSON',
+            type: "POST",
+            contentType: false,
+            processData: false,
+            url: '/item/Index',
+            data: formData,
+            success: function (data) {
+                if (data.Success)
+                {
+                    alert(data.Message);
+                    ResetItem();
+                }
+            },
+            error: function () {
+                alert("There is someproblem to add a Item!!");
+            }
+
+
+        });
+
+
+
+
+    }
+
+</script>
+
+
+
+<div class="container">
+    <div class="col-md-4">
+        <div class="form-group">
+            Category:
+            @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.CategorySelectListItem,"Value", "Text"),
+                    htmlAttributes:new { @class = "form-control" })
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+        <div class="form-group">
+            Item code:
+            @Html.TextBoxFor(model => model.ItemCode, htmlAttributes: new { @class = "form-control", autocomplete = "Off"})
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            Item Name:
+            @Html.TextBoxFor( model => model.ItemName, htmlAttributes: new { @class = "form-control", autocomplete = "Off" })
+        </div>
+
+    </div>
+
+
+
+    <div class="col-md-4">
+        <div class="form-group">
+            Description:
+            @Html.TextBoxFor( model => model.Description, htmlAttributes: new { @class = "form-control", autocomplete = "Off" })
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            Vacation price:
+            @Html.TextBoxFor(model => model.ItemPrice, htmlAttributes: new { @class = "form-control" })
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            Image:
+            @Html.TextBoxFor(model => model.ImagePath, htmlAttributes: new { type = "file", @class = "form-control" })
+        </div>
+
+    </div>
+
+
+    <div>
+        <input type="button" value="Save" name="Save" class="btn btn-primary"  id="btnSave"/>
+        &nbsp;
+        <input type="button" value="Reset" name="Reset" class="btn btn-danger" />
+
+
+    </div>
+</div>
